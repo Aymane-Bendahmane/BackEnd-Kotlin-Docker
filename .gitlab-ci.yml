@@ -1,0 +1,19 @@
+# Specify the Docker image to use for the build
+image: maven:latest
+
+# Define the stages of the pipeline
+stages:
+  - build
+  - test
+
+# Define the job for building the application
+build:
+  stage: build
+  script:
+    - mvn clean install
+
+# Define the job for running unit tests
+test:
+  stage: test
+  script:
+    - mvn test
