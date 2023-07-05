@@ -10,13 +10,12 @@ import javax.persistence.Id
 data class Product(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @JsonIgnore
     var id: Long = 0,
-    val sku: String,
-    val name: String,
-    val description: String,
-    val price: Double,
-    val stock: Int
+    var sku: String,
+    var name: String,
+    var description: String,
+    var price: Double,
+    var stock: Int
 
 
 ){
@@ -30,9 +29,7 @@ data class Product(
         if (name != other.name) return false
         if (description != other.description) return false
         if (price != other.price) return false
-        if (stock != other.stock) return false
-
-        return true
+        return stock == other.stock
     }
     override fun hashCode(): Int {
         var result = id.hashCode()

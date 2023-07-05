@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MvcResult
 import org.springframework.test.web.servlet.RequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import com.fasterxml.jackson.core.type.TypeReference
+import com.imedia.demo.dtos.ProductDto
 
 
 @WebMvcTest(ProductController::class)
@@ -35,26 +36,26 @@ class ProductControllerTests {
     @Test
     fun testGetProductsBySku() {
         val sku = "ABC123"
-        val product = Product(sku = sku, name = "Product 1", description = "Dummy product", price = 9.99, stock = 3)
+        val productDto = ProductDto(sku = sku, name = "Product 1", description = "Dummy product", price = 9.99, stock = 3)
 
-        `when`(productServiceImp.getProductBySku(sku)).thenReturn(product)
+        `when`(productServiceImp.getProductBySku(sku)).thenReturn(productDto)
 
 
         val requestBuilder: RequestBuilder = MockMvcRequestBuilders.get("/product/$sku")
         val result: MvcResult = mockMvc.perform(requestBuilder).andReturn()
         val response: MockHttpServletResponse = result.response
 
-        val responseProduct: Product = objectMapper.readValue(response.contentAsString  , object : TypeReference<Product>() {})
+        val responseProduct: ProductDto = objectMapper.readValue(response.contentAsString  , object : TypeReference<ProductDto>() {})
 
         assertEquals(HttpStatus.OK.value(), response.status)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, response.contentType)
-        assertTrue(product == responseProduct)
+        assertTrue(productDto == responseProduct)
     }
 
     @Test
     fun testUpdateProduct() {
         val productId = 18L
-        val product = Product(
+        val productDto = ProductDto(
             sku = "ABC123",
             name = "Product 1",
             description = "Updated product",
@@ -62,19 +63,19 @@ class ProductControllerTests {
             stock = 55
         )
 
-        `when`(productServiceImp.updateProduct(productId, product)).thenReturn(product)
+        `when`(productServiceImp.updateProduct(productId, productDto)).thenReturn(productDto)
 
         val requestBuilder: RequestBuilder = MockMvcRequestBuilders.put("/product/$productId")
             .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(product))
+            .content(objectMapper.writeValueAsString(productDto))
 
         val result: MvcResult = mockMvc.perform(requestBuilder).andReturn()
         val response: MockHttpServletResponse = result.response
 
-        val responseProduct: Product = objectMapper.readValue(response.contentAsString,object : TypeReference<Product>() {})
+        val responseProduct: ProductDto = objectMapper.readValue(response.contentAsString,object : TypeReference<ProductDto>() {})
 
         assertEquals(HttpStatus.OK.value(), response.status)
         assertEquals(MediaType.APPLICATION_JSON_VALUE, response.contentType)
-        assertTrue(product == responseProduct)
+        assertTrue(productDto == responseProduct)
     }
 }
