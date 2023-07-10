@@ -1,8 +1,9 @@
-# Coding Challenge [imedia24]
+# Coding Challenge 
 ## Description
-How to use the app in docker container
+A kotlin/spring boot app includes unit testing  and docker config
 
 ## Prerequisites
+How to use the app in docker container
 Before running the Docker container, ensure that you have the following prerequisites installed:
 
 - Docker: [Install Docker](https://docs.docker.com/get-docker/)
