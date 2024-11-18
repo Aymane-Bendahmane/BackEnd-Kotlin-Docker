@@ -1,4 +1,4 @@
-# Coding Challenge 
+# Practice App 
 ## Description
 A kotlin/spring boot app includes unit testing  and docker config
 
